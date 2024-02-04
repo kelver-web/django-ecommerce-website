@@ -9,3 +9,4 @@ def home(request):
     products = Product.objects.all()
     return render(request, 'store/home.html', {'products': products})
 
+# ir para a aula 05 product sales
