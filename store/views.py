@@ -52,7 +52,7 @@ def register_user(request):
             password = form.cleaned_data['password1']
             user = authenticate(username=username, password=password)
             login(request, user)
-            messages.success(request, f'Account created for {username}, Welcome!!!')
+            messages.success(request, f'Account created successfully. Welcome {username} !!!')
             return redirect('login')
         else:
             messages.error(request, 'Please correct the error below, try again...')
@@ -60,3 +60,7 @@ def register_user(request):
     else:
         return render(request,'store/register.html', {'form':form})
 
+
+def product(request, id):
+    product = Product.objects.get(id=id)
+    return render(request, 'store/product.html', {'product':product})
