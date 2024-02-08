@@ -5,7 +5,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django import forms
 from django.contrib import messages
 
-from . models import Product
+from . models import Product, Category
 from . forms import SignUpForm
 
 # Create your views here.
@@ -64,3 +64,19 @@ def register_user(request):
 def product(request, id):
     product = Product.objects.get(id=id)
     return render(request, 'store/product.html', {'product':product})
+
+
+def category(request, foo):
+    # Replace Hyfens with Spaces
+    foo = foo.replace('-', ' ')
+    # Grab the Category from url.
+    try:
+        # Look up the category
+        category = Category.objects.get(name=foo)
+        products = Product.objects.filter(category=category)
+        return render(request,'store/category.html', {
+            'products':products,
+            'category':category,})
+    except:
+        messages.error(request, "That Category Doesn't Exist...")
+        return redirect('home')
